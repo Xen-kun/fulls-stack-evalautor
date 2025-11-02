@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
-import api from "./api/axios"
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function Tasks() {
+function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    api.get('/tasks')
+    axios
+      .get("http://localhost:5215/api/tasks") //backedn url
       .then(res => setTasks(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching tasks:", err));
   }, []);
 
   return (
-    <div>
-      <h2>Tasks</h2>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-2">Tasks</h1>
       <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
-            {task.title} {task.isDone ? '✅' : '❌'}
+        {tasks.map(t => (
+          <li key={t.id}>
+            {t.title} — {t.isDone ? "✅ Done" : "❌ Pending"}
           </li>
         ))}
       </ul>
@@ -24,4 +25,4 @@ function Tasks() {
   );
 }
 
-export default Tasks;
+export default App;
