@@ -21,7 +21,6 @@ namespace TaskManager.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            
             var tasks = await _context.Tasks.ToListAsync();
             return Ok(tasks);
         }
@@ -42,11 +41,13 @@ namespace TaskManager.API
             if (task == null) return NotFound();
 
             task.Title = updated.Title;
-            task.IsDone = updated.IsDone;
-            await _context.SaveChangesAsync();
+            task.Description = updated.Description;
+            task.IsCompleted = updated.IsCompleted;
 
+            await _context.SaveChangesAsync();
             return Ok(task);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
